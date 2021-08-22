@@ -1,3 +1,17 @@
+import './main.scss'
+
 import { ReactElement } from 'react'
 
-export const MainScreen = (): ReactElement => <h2>main</h2>
+import { Pokemon } from '../../ui/pokemon/pokemon'
+
+export const MainScreen = (): ReactElement => (
+  <div className="main">
+    <Pokemon />
+    <Pokemon />
+    <Pokemon />
+    <Pokemon />
+    <Pokemon />
+    <Pokemon />
+    <Pokemon />
+  </div>
+)
