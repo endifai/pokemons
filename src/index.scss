@@ -3,4 +3,23 @@ body,
 #root {
     height: 100%;
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-weight: 200;
+    src: local('Montserrat'), url('./fonts/Montserrat-Light.ttf') format('truetype')  
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    src: local('Montserrat'), url('./fonts/Montserrat-Regular.ttf') format('truetype')  
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    src: local('Montserrat'), url('./fonts/Montserrat-SemiBold.ttf') format('truetype')  
 }
