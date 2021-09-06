@@ -12,6 +12,7 @@ export const Pokemon = (data: PokemonItem): ReactElement => {
         dream_world: { front_default },
       },
     },
+    types,
   } = data
 
   return (
@@ -21,7 +22,11 @@ export const Pokemon = (data: PokemonItem): ReactElement => {
       <p className="pokemon__name">{name}</p>
 
       <div className="pokemon__types">
-        <span className="pokemon__types__type">electric</span>
+        {types.map(({ type: { name } }) => (
+          <span key={name} className="pokemon__types__type">
+            {name}
+          </span>
+        ))}
       </div>
     </div>
   )
