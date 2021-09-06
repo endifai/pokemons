@@ -1,4 +1,4 @@
-export interface Pokemon {
+export interface PokemonItem {
   abilities: {
     ability: {
       name: string

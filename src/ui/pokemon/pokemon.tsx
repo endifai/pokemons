@@ -2,23 +2,27 @@ import './pokemon.scss'
 
 import { ReactElement } from 'react'
 
-import { Pokemon as IPokemon } from '../../types'
+import { PokemonItem } from '../../types'
 
-export const Pokemon = ({
-  name,
-  sprites: {
-    other: {
-      dream_world: { front_default },
+export const Pokemon = (data: PokemonItem): ReactElement => {
+  const {
+    name,
+    sprites: {
+      other: {
+        dream_world: { front_default },
+      },
     },
-  },
-}: IPokemon): ReactElement => (
-  <div className="pokemon">
-    <img src={front_default} className="pokemon__image" />
+  } = data
 
-    <p className="pokemon__name">{name}</p>
+  return (
+    <div className="pokemon">
+      <img src={front_default} className="pokemon__image" />
 
-    <div className="pokemon__types">
-      <span className="pokemon__types__type">electric</span>
+      <p className="pokemon__name">{name}</p>
+
+      <div className="pokemon__types">
+        <span className="pokemon__types__type">electric</span>
+      </div>
     </div>
-  </div>
-)
+  )
+}

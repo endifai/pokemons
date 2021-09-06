@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Pokemon } from '../types'
+import { PokemonItem } from '../types'
 
 interface PokemonsState {
-  items: Record<number, Pokemon>
+  items: Record<number, PokemonItem>
   loading: boolean
   error: string | null
 }
@@ -21,7 +21,7 @@ const fetchPokemonByUri = async (uri: string) => {
   return data
 }
 
-export const fetchPokemons = createAsyncThunk<Pokemon[]>(
+export const fetchPokemons = createAsyncThunk<PokemonItem[]>(
   'pokemons/fetchPokemons',
   async () => {
     const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
@@ -41,7 +41,10 @@ export const pokemonsSlice = createSlice({
   name: 'pokemons',
   initialState,
   reducers: {
-    setPokemons: (state, action: PayloadAction<Record<number, Pokemon>>) => {
+    setPokemons: (
+      state,
+      action: PayloadAction<Record<number, PokemonItem>>,
+    ) => {
       state.items = action.payload
     },
   },
@@ -53,7 +56,7 @@ export const pokemonsSlice = createSlice({
     })
 
     builder.addCase(fetchPokemons.fulfilled, (state, action) => {
-      state.items = action.payload.reduce<Record<number, Pokemon>>(
+      state.items = action.payload.reduce<Record<number, PokemonItem>>(
         (acc, item) => {
           if (item) {
             acc[item.id] = item

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { RootState } from '../../store'
 import { fetchPokemons } from '../../store/pokemons'
-import { Pokemon as IPokemon } from '../../types'
+import { PokemonItem } from '../../types'
 import { Loader } from '../../ui/loader/loader'
 import { Pokemon } from '../../ui/pokemon/pokemon'
 
@@ -14,7 +14,7 @@ export const MainScreen = (): ReactElement => {
   const loading = useSelector<RootState, boolean>(
     (state) => state.pokemons.loading,
   )
-  const pokemons = useSelector<RootState, Record<number, IPokemon>>(
+  const pokemons = useSelector<RootState, Record<number, PokemonItem>>(
     (state) => state.pokemons.items,
   )
 
