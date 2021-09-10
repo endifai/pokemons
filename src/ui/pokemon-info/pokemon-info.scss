@@ -1,0 +1,45 @@
+@import "styles/colors";
+
+.pokemon-info {
+    &__container {
+        flex: 1;
+        padding-left: 60px;
+    }
+
+    &__name {
+        text-transform: uppercase;
+        color: $dark-green;
+        font-weight: 600;
+        font-size: 48px;
+        line-height: 59px;
+        margin-top: 0px;
+        margin-bottom: 20px;
+    }
+}
+
+.specifications {
+    padding: 38px;
+    border-radius: 30px;
+    background-color: $green;
+    margin-bottom: 20px;
+
+    &-group {
+        display: flex;
+
+        &:not(:last-child) {
+            margin-bottom: 25px;
+        }
+    }
+
+    &-item {
+        flex: 1;
+        font-size: 24px;
+        line-height: 29px;
+        color: $black;
+        margin: 0px;
+
+        &__title {
+            color: $white;
+        }
+    }
+}

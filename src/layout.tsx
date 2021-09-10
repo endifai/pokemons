@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom'
 import { RoutesEnum } from './enums/routes.enum'
 import { FavoritesScreen } from './screens/favorites/favorites.screen'
 import { MainScreen } from './screens/main/main.screen'
+import { PokemonScreen } from './screens/pokemon/pokemon.screen'
 import { Header } from './ui/header/header'
 
 export const Layout = (): ReactElement => {
@@ -16,6 +17,7 @@ export const Layout = (): ReactElement => {
       <Switch>
         <Route path={RoutesEnum.MAIN} component={MainScreen} exact />
         <Route path={RoutesEnum.FAVORITES} component={FavoritesScreen} exact />
+        <Route path={RoutesEnum.POKEMON} component={PokemonScreen} exact />
       </Switch>
     </div>
   )

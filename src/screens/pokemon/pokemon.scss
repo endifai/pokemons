@@ -1,0 +1,46 @@
+@import "styles/colors";
+
+.pokemon__container {
+    display: flex;
+    padding: 60px 190px 22px 190px;
+
+    .pokemon__image {
+        width: 352px;
+        height: 352px;
+        object-fit: contain;
+        border-radius: 30px;
+        margin-bottom: 32px;
+        display: block;
+    }
+
+    .favorite-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        border-radius: 24px;
+        border: none;
+        outline: none;
+        background-color: $pink;
+        color: $white;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        height: 44px;
+        padding: 0px;
+        font-family: "Montserrat", sans-serif;
+        transition: transform 0.2s ease-in-out;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+
+        svg {
+            margin-left: 8px;
+        }
+    }
+}
