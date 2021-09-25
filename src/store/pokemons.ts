@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
+import { Api } from '../api'
 import { PAGINATION_LIMIT } from '../constants'
 import { PokemonItem } from '../types'
 import { RootState } from './index'
@@ -29,12 +30,7 @@ const fetchPokemonByUri = async (uri: string) => {
 
 export const fetchPokemonById = createAsyncThunk<PokemonItem, string>(
   'pokemons/fetchPokemonById',
-  async (id) => {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-    const data = await response.json()
-
-    return data
-  },
+  Api.fetchPokemonById,
 )
 
 export const fetchPokemons = createAsyncThunk<

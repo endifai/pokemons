@@ -1,15 +1,20 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 
+import { favoritesReducer } from './favorites'
 import { pokemonsReducer } from './pokemons'
 
 const rootReducer = combineReducers({
   pokemons: pokemonsReducer,
+  favorites: favoritesReducer,
 })
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleWare) => getDefaultMiddleWare().concat(logger),
+  middleware: (getDefaultMiddleWare) =>
+    process.env.NODE_ENV !== 'production'
+      ? getDefaultMiddleWare().concat(logger)
+      : getDefaultMiddleWare(),
   devTools: process.env.NODE_ENV !== 'production',
 })
 

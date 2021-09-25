@@ -1,13 +1,15 @@
 import './pokemon.scss'
 
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 import { RoutesEnum } from '../../enums/routes.enum'
 import { useQueryParam } from '../../hooks/use-query-param'
 import { SvgFavorite } from '../../icons/favorite'
+import { SvgNotFavorite } from '../../icons/not-favorite'
 import { AppDispatch, RootState } from '../../store'
+import { addFavorite, removeFavorite } from '../../store/favorites'
 import { fetchPokemonById, resetSelectedPokemon } from '../../store/pokemons'
 import { PokemonItem } from '../../types'
 import { Loader } from '../../ui/loader/loader'
@@ -22,6 +24,9 @@ export const PokemonScreen = (): ReactElement => {
   )
   const pokemon = useSelector<RootState, PokemonItem | null>(
     (state) => state.pokemons.selectedPokemon,
+  )
+  const favorites = useSelector<RootState, string[]>(
+    (state) => state.favorites.ids,
   )
 
   const id = useQueryParam('id')
@@ -40,6 +45,16 @@ export const PokemonScreen = (): ReactElement => {
     }
   }, [])
 
+  const isFavorite = id && favorites.includes(id)
+
+  const handleClick = useCallback(() => {
+    if (!id) {
+      return
+    }
+
+    isFavorite ? dispatch(removeFavorite(id)) : dispatch(addFavorite(id))
+  }, [isFavorite, id])
+
   if (loading || !pokemon) {
     return <Loader />
   }
@@ -55,8 +70,9 @@ export const PokemonScreen = (): ReactElement => {
           draggable={false}
         />
 
-        <button className="favorite-button">
-          Добавить в избранное <SvgFavorite />
+        <button className="favorite-button" onClick={handleClick}>
+          {isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+          {isFavorite ? <SvgNotFavorite /> : <SvgFavorite />}
         </button>
       </div>
 
