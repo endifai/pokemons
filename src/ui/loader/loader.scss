@@ -1,9 +1,7 @@
 @import "styles/colors";
 
 .center {
-    height: calc(100% - 70px);
     display: flex;
-    flex: 1;
     justify-content: center;
     align-items: center;
 }

@@ -1,19 +1,23 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
+import { PAGINATION_LIMIT } from '../constants'
 import { PokemonItem } from '../types'
+import { RootState } from './index'
 
 interface PokemonsState {
-  items: Record<number, PokemonItem>
+  items: PokemonItem[]
   loading: boolean
   error: string | null
   selectedPokemon: PokemonItem | null
+  endReached: boolean
 }
 
 const initialState: PokemonsState = {
-  items: {},
+  items: [],
   loading: false,
   error: null,
   selectedPokemon: null,
+  endReached: false,
 }
 
 const fetchPokemonByUri = async (uri: string) => {
@@ -33,54 +37,51 @@ export const fetchPokemonById = createAsyncThunk<PokemonItem, string>(
   },
 )
 
-export const fetchPokemons = createAsyncThunk<PokemonItem[]>(
-  'pokemons/fetchPokemons',
-  async () => {
-    const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
-    const data = await response.json()
-    const pokemons = data.results as { name: string; url: string }[]
+export const fetchPokemons = createAsyncThunk<
+  PokemonItem[],
+  void,
+  { state: RootState }
+>('pokemons/fetchPokemons', async (_, { getState, dispatch }) => {
+  const offset = getState().pokemons.items.length
+  const response = await fetch(
+    `https://pokeapi.co/api/v2/pokemon?limit=${PAGINATION_LIMIT}&offset=${offset}`,
+  )
+  const data = await response.json()
+  const pokemons = data.results as { name: string; url: string }[]
+  const next = data.next as string | null
 
-    const results = await Promise.allSettled(
-      pokemons.map(({ url }) => fetchPokemonByUri(url)),
-    )
-    return results.map((result) =>
-      'value' in result ? result.value : undefined,
-    )
-  },
-)
+  const results = await Promise.allSettled(
+    pokemons.map(({ url }) => fetchPokemonByUri(url)),
+  )
+
+  if (!next) {
+    dispatch(setEndReached())
+  }
+
+  return results
+    .map((result) => ('value' in result ? result.value : undefined))
+    .filter((pokemon) => !!pokemon)
+})
 
 export const pokemonsSlice = createSlice({
   name: 'pokemons',
   initialState,
   reducers: {
-    setPokemons: (
-      state,
-      action: PayloadAction<Record<number, PokemonItem>>,
-    ) => {
-      state.items = action.payload
-    },
     resetSelectedPokemon: (state) => {
       state.selectedPokemon = null
+    },
+    setEndReached: (state) => {
+      state.endReached = true
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPokemons.pending, (state) => {
       state.error = null
       state.loading = true
-      state.items = {}
     })
 
     builder.addCase(fetchPokemons.fulfilled, (state, action) => {
-      state.items = action.payload.reduce<Record<number, PokemonItem>>(
-        (acc, item) => {
-          if (item) {
-            acc[item.id] = item
-          }
-
-          return acc
-        },
-        {},
-      )
+      state.items = [...state.items, ...action.payload]
       state.loading = false
     })
 
@@ -105,5 +106,5 @@ export const pokemonsSlice = createSlice({
   },
 })
 
-export const { setPokemons, resetSelectedPokemon } = pokemonsSlice.actions
+export const { resetSelectedPokemon, setEndReached } = pokemonsSlice.actions
 export const pokemonsReducer = pokemonsSlice.reducer

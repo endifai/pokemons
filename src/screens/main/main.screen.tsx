@@ -1,6 +1,7 @@
 import './main.scss'
 
 import { ReactElement, useEffect } from 'react'
+import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { RootState } from '../../store'
@@ -14,23 +15,42 @@ export const MainScreen = (): ReactElement => {
   const loading = useSelector<RootState, boolean>(
     (state) => state.pokemons.loading,
   )
-  const pokemons = useSelector<RootState, Record<number, PokemonItem>>(
+  const pokemons = useSelector<RootState, PokemonItem[]>(
     (state) => state.pokemons.items,
   )
+  const endReached = useSelector<RootState, boolean>(
+    (state) => state.pokemons.endReached,
+  )
+
+  const { ref, inView } = useInView({ threshold: 1 })
+
+  useEffect(() => {
+    if (inView) {
+      dispatch(fetchPokemons())
+    }
+  }, [inView])
 
   useEffect(() => {
     dispatch(fetchPokemons())
   }, [])
 
-  if (loading) {
+  if (loading && pokemons.length === 0) {
     return <Loader />
   }
 
   return (
-    <div className="main">
-      {Object.values(pokemons).map((pokemon) => (
-        <Pokemon key={pokemon.id} {...pokemon} />
-      ))}
-    </div>
+    <>
+      <div className="main">
+        {pokemons.map((pokemon) => (
+          <Pokemon key={pokemon.id} {...pokemon} />
+        ))}
+      </div>
+
+      {!endReached && (
+        <div ref={ref}>
+          <Loader scale={0.5} />
+        </div>
+      )}
+    </>
   )
 }

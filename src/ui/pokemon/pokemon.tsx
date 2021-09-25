@@ -1,13 +1,13 @@
 import './pokemon.scss'
 
-import { ReactElement } from 'react'
+import { memo, ReactElement } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { RoutesEnum } from '../../enums/routes.enum'
 import { PokemonItem } from '../../types'
 import { PokemonTypes } from '../pokemon-types/pokemon-types'
 
-export const Pokemon = (data: PokemonItem): ReactElement => {
+export const Pokemon = memo((data: PokemonItem): ReactElement => {
   const {
     id,
     name,
@@ -32,4 +32,6 @@ export const Pokemon = (data: PokemonItem): ReactElement => {
       <PokemonTypes types={types} />
     </div>
   )
-}
+})
+
+Pokemon.displayName = 'Pokemon'

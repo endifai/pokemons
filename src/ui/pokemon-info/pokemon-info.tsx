@@ -29,12 +29,12 @@ export const PokemonInfo = ({
         <div className="specifications-group">
           <p className="specifications-item">
             <span className="specifications-item__title">Height: </span>
-            {height}cm
+            {height / 10}m
           </p>
 
           <p className="specifications-item">
             <span className="specifications-item__title">Weight: </span>
-            {weight}kg
+            {weight / 10}kg
           </p>
         </div>
 
