@@ -2,6 +2,8 @@
 
 SPA application of handbook for pokemons. Main purpose is ability to view list of all pokemons and full details of each pokemon. For more convenient learning pokemons you can add some of them to favorites list.
 
+**DEMO**: https://endifai-pokemons.netlify.app/
+
 ## TechStack
 
 * React
