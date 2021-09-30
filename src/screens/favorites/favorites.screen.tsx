@@ -1,3 +1,5 @@
+import './favorites.scss'
+
 import { ReactElement, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -26,9 +28,15 @@ export const FavoritesScreen = (): ReactElement => {
 
   return (
     <div className="main">
-      {favorites.map((pokemon) => (
-        <Pokemon key={pokemon.id} {...pokemon} />
-      ))}
+      {favorites.length ? (
+        favorites.map((pokemon) => <Pokemon key={pokemon.id} {...pokemon} />)
+      ) : (
+        <p className="empty-list__text">
+          {"You don't have any pokemons in your favorites list."}
+          <br />
+          {"Add pokemon to favorites on pokemon's details page."}
+        </p>
+      )}
     </div>
   )
 }
