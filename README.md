@@ -10,6 +10,7 @@ SPA application of handbook for pokemons. Main purpose is ability to view list o
 * TypeScript
 * Redux-Toolkit
 * Redux-Thunk for async operations
+* Redux-Persist
 * SCSS - styling
 
 ## Scripts
